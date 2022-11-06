@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
@@ -21,26 +23,32 @@ class PuzzleView extends GetView<PuzzleController> {
             const SizedBox(height: 15),
             Card(
               margin: const EdgeInsets.only(top: 10),
-              child: GridView.builder(
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                padding: const EdgeInsets.all(8),
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: controller.col),
-                itemCount: controller.getItemCount(),
-                itemBuilder: (context, index) {
-                  return Card(
-                    clipBehavior: Clip.hardEdge,
-                    color: Colors.grey.shade300,
-                    child: Center(
-                      child: Text(
-                        controller.getElemendAt(index),
-                        textAlign: TextAlign.center,
+              child: GetBuilder<PuzzleController>(builder: (controller) {
+                return GridView.builder(
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  padding: const EdgeInsets.all(8),
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: controller.col),
+                  itemCount: controller.getItemCount(),
+                  itemBuilder: (context, index) {
+                    var item = controller.getElemendAt(index);
+                    return Card(
+                      elevation: item.isSelected ? 5 : 0,
+                      clipBehavior: Clip.hardEdge,
+                      color: item.isSelected
+                          ? Colors.yellow
+                          : Colors.grey.shade300,
+                      child: Center(
+                        child: Text(
+                          item.value,
+                          textAlign: TextAlign.center,
+                        ),
                       ),
-                    ),
-                  );
-                },
-              ),
+                    );
+                  },
+                );
+              }),
             ),
           ],
         ),
