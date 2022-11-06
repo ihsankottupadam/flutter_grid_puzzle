@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
@@ -32,7 +30,7 @@ class PuzzleView extends GetView<PuzzleController> {
                       crossAxisCount: controller.col),
                   itemCount: controller.getItemCount(),
                   itemBuilder: (context, index) {
-                    var item = controller.getElemendAt(index);
+                    var item = controller.getElementAt(index);
                     return Card(
                       elevation: item.isSelected ? 5 : 0,
                       clipBehavior: Clip.hardEdge,

@@ -30,7 +30,7 @@ class SearchBar extends GetWidget<PuzzleController> {
               ),
             ),
             TextButton.icon(
-              onPressed: controller.serch,
+              onPressed: controller.search,
               icon: const Icon(Icons.search),
               label: const Text('Serch'),
               style: TextButton.styleFrom(

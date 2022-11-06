@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
@@ -14,6 +16,12 @@ class AlphabetsView extends GetView<AlphabetsController> {
         body: ListView(
           padding: const EdgeInsets.all(8.0),
           children: [
+            const SizedBox(height: 15),
+            const Text(
+              'Enter Alphabets',
+              style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 15),
             Form(
               key: controller.formKey,
               child: Card(

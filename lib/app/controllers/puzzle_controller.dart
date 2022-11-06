@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -22,34 +20,44 @@ class PuzzleController extends GetxController {
     list[mRow][mCol] = CardItem(value);
   }
 
-  CardItem getElemendAt(int index) {
+  CardItem getElementAt(int index) {
     int mCol = index % col;
     int mRow = index ~/ col;
     return list[mRow][mCol];
   }
 
-  void serch() {
+  void search() {
     String query = serchController.text;
     if (query.isEmpty) return;
     _clearSelection();
     for (var i = 0; i < col; i++) {
       for (var j = 0; j < row; j++) {
-        _searchInSell(i, j, query);
+        if (list[i][j].value == query[0]) {
+          _searchInSell(i, j, query);
+        }
       }
     }
     update();
   }
 
-  void _searchInSell(int sRow, int sCol, String query) {
-    for (var i = 0; i < query.length; i++) {
-      if (sCol + i > col - 1) return;
-      if (list[sRow][sCol + i].value != query[i]) {
-        return;
+  List<Dir> dirs = [Dir(0, 1), Dir(1, 0), Dir(1, 1), Dir(-1, 1)];
+  void _searchInSell(int currRow, int currCol, String query) {
+    for (var d = 0; d < dirs.length; d++) {
+      Dir currDir = dirs[d];
+      int t;
+      for (t = 0; t < query.length; t++) {
+        int sRow = currRow + t * currDir.r;
+        int sCol = currCol + t * currDir.c;
+        // for exit if index is beyond the grid
+        if ((sRow > row - 1 || sRow < 0) || (sCol > col - 1 || sCol < 0)) break;
+        if (list[sRow][sCol].value != query[t]) break;
       }
-    }
-    log('found at row $sRow col $sCol');
-    for (var i = 0; i < query.length; i++) {
-      list[sRow][sCol + i].setSelected(true);
+      if (t == query.length) {
+        for (var i = 0; i < query.length; i++) {
+          list[currRow + i * currDir.r][currCol + i * currDir.c]
+              .setSelected(true);
+        }
+      }
     }
   }
 
@@ -60,4 +68,10 @@ class PuzzleController extends GetxController {
       }
     }
   }
+}
+
+class Dir {
+  final int r;
+  final int c;
+  Dir(this.r, this.c);
 }
