@@ -1,23 +1,36 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:grid_puzzle/app/controllers/puzzle_controller.dart';
+import 'package:grid_puzzle/app/routes/app_pages.dart';
 
 class HomeController extends GetxController {
-  //TODO: Implement HomeController
+  final PuzzleController puzzleController = Get.find();
+  final formKey = GlobalKey<FormState>();
 
-  final count = 0.obs;
-  @override
-  void onInit() {
-    super.onInit();
+  void saveCol(String? val) {
+    int col = int.parse(val!);
+    puzzleController.col = col;
   }
 
-  @override
-  void onReady() {
-    super.onReady();
+  void saveRow(String? val) {
+    int row = int.parse(val!);
+    puzzleController.row = row;
   }
 
-  @override
-  void onClose() {
-    super.onClose();
+  String? validator(String? val) {
+    if (val == null || val.isEmpty) {
+      return 'Enter value';
+    }
+    int dig = int.parse(val);
+    if (dig < 0 && dig > 7) {
+      return 'must be between 0 - 7';
+    }
+    return null;
   }
 
-  void increment() => count.value++;
+  save() {
+    if (!formKey.currentState!.validate()) return;
+    formKey.currentState!.save();
+    Get.toNamed(Routes.ALPHABETS);
+  }
 }

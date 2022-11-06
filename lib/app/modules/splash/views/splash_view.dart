@@ -6,7 +6,8 @@ import 'package:grid_puzzle/app/modules/splash/widgets/card_gride.dart';
 import '../controllers/splash_controller.dart';
 
 class SplashView extends GetView<SplashController> {
-  const SplashView({Key? key}) : super(key: key);
+  SplashView({Key? key}) : super(key: key);
+  final SplashController controller = Get.find();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
